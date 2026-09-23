@@ -1,6 +1,6 @@
 import pandas as pd
 from engine import max_entropy
-import time
+import json
 
 df = pd.read_csv("Final_Augmented_dataset_Diseases_and_Symptoms.csv")
 
@@ -12,7 +12,6 @@ def symptom_check(symptom):
 
 def leaf_confidence(pool):
     counts = pool["diseases"].value_counts(normalize=True)
-    print(counts[counts > 0.0049].head(1), "Symptoms:", len(counts), "Diseases:", len(pool))
     return counts[counts > 0.0049].head(5).to_dict()
 
 def leaf_check(pool, confidence):
@@ -30,6 +29,7 @@ def leaf_print(pool):
 def tree_builder(pool):
     confidence = leaf_confidence(pool)
     if leaf_check(pool, confidence):
+        print("leaf")
         return {"is leaf": True, "diseases": confidence}
     result = max_entropy(pool)[0]
     positive_pool = pool[pool[result] == 1]
@@ -38,4 +38,7 @@ def tree_builder(pool):
     no_branch = tree_builder(negative_pool)
     return {"symptom": result, "yes": yes_branch, "no": no_branch}
 
-print(tree_builder(df))
+tree = tree_builder(df)
+
+with open("starter_tree.json", "w") as f:
+    json.dump(tree, f, indent = 2)
