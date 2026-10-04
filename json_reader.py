@@ -32,10 +32,9 @@ class symptom_check():
         elif x == "n":
             if "no" in self.current_node.keys():
                 self.current_node = self.current_node["no"]
-        return self.current_node["symptom"]
+        return
 
     def severity_check(self):
-        print(self.current_node["diseases"])
         for disease, freq in self.current_node["diseases"].items():
             if freq * severity_list[disease] * 100 > 500:
                 self.dangerous_diseases.append(disease)
