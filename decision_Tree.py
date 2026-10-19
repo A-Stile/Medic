@@ -29,14 +29,13 @@ def leaf_print(pool):
 def tree_builder(pool):
     confidence = leaf_confidence(pool)
     if leaf_check(pool, confidence):
-        print("leaf")
         return {"is leaf": True, "diseases": confidence}
     result = max_entropy(pool)[0]
     positive_pool = pool[pool[result] == 1]
     negative_pool = pool[pool[result] == 0]
     yes_branch = tree_builder(positive_pool)
     no_branch = tree_builder(negative_pool)
-    return {"symptom": result, "yes": yes_branch, "no": no_branch}
+    return {"symptom": result, "n": len(pool), "yes": yes_branch, "no": no_branch}
 
 tree = tree_builder(df)
 
