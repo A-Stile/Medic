@@ -1,3 +1,5 @@
+#outdated frontend, INGORE
+
 from nicegui import ui
 from json_reader import symptom_check
 import json

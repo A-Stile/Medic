@@ -13,7 +13,6 @@ from nicegui import run, ui
 with open('starter_tree.json', 'r', encoding='utf-8') as file:
     DEMO_TREE = json.load(file)
 
-
 class Engine:
     def __init__(self, path='tree.json'):
         if os.path.exists(path):
@@ -211,4 +210,4 @@ def index():
     ui.timer(0, load_text, once=True)
 
 
-ui.run(title='Medic', favicon='🩺', reload=False)
+ui.run(title='Medic', favicon='🩺', reload=False, show=False, host = "0.0.0.0")

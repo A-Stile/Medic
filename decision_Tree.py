@@ -29,7 +29,7 @@ def leaf_print(pool):
 def tree_builder(pool):
     confidence = leaf_confidence(pool)
     if leaf_check(pool, confidence):
-        return {"is leaf": True, "diseases": confidence}
+        return {"leaf": True, "diseases": confidence, "n": 1, "urgency": "urgent"}
     result = max_entropy(pool)[0]
     positive_pool = pool[pool[result] == 1]
     negative_pool = pool[pool[result] == 0]
