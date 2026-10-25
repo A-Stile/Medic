@@ -28,20 +28,20 @@ Medic is a symptom-triage app. It asks a series of yes/no questions, Akinator-st
    - Mac/Linux: `python3 -m venv venv` then `source venv/bin/activate`
    - Windows: `python -m venv venv` then `venv\Scripts\activate`
 4. Install the packages: `pip install -r requirements.txt`
-5. Start the app: `python [main.py]`
+5. Start the app: `python medic_ui.py`
 6. Open http://localhost:8080 in your browser.
 
 ## Rebuild the tree (optional)
 
 Only needed if you change the tree-building logic.
 
-1. Download `Final_Augmented_dataset_Diseases_and_Symptoms.csv` from Kaggle and place it in [folder].
+1. Download `Final_Augmented_dataset_Diseases_and_Symptoms.csv` from Kaggle and place it in `Medic`.
 2. Run `python decision_Tree.py`.
 3. It writes a new JSON tree to `starter_tree.json`.
 
 ## Deployment
 
-Hosted on [Render/Railway] at [URL]. The start command is `python [main.py]`, and the port comes from the `PORT` environment variable.
+Hosted on Render at https://medic-spl6.onrender.com. The start command is `python medic_ui.py`, and the port comes from the `PORT` environment variable.
 
 ## Limitations
 
