@@ -146,7 +146,7 @@ def index():
     # ---- views ---------------------------------------------------------------
     def narrowing(node):
         pct = round(100 * (1 - node['n'] / engine.total))
-        ui.label(f"{node['n']:,} of {engine.total:,} patient cases still match").classes('meta')
+        ui.label(f"{node['n']:,} of {engine.total:,} records in the dataset still match").classes('meta')
         with ui.element('div').classes('track'):
             fill = ui.element('div').classes('fill').style(f"width:{s['pct']}%")
         grow(fill, pct)
