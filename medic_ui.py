@@ -10,18 +10,29 @@ from nicegui import run, ui
 #                 "urgency": "emergency" | "urgent" | "routine"}
 # "n" = number of patient rows still in the candidate pool at that node.
 
-with open('starter_tree.json', 'r', encoding='utf-8') as file:
+with open('ui_tree.json', 'r', encoding='utf-8') as file:
     DEMO_TREE = json.load(file)
 
 class Engine:
-    def __init__(self, path='tree.json'):
+    def __init__(self, path='ui_tree.json'):
         if os.path.exists(path):
             with open(path) as f:
                 self.tree = json.load(f)
         else:
             self.tree = DEMO_TREE
         self.total = self.tree['n']
-        self.red_flags = {'chest pain': 'Chest pain can be a sign of a heart attack.'}
+        self.red_flags = {
+            "chest tightness":     "Chest tightness or pressure can be a sign of a heart attack.",
+            "sharp chest pain":    "Chest pain can be a sign of a heart attack or another life-threatening problem.",
+            "shortness of breath": "Shortness of breath can signal a heart or lung emergency.",
+            "difficulty breathing": "Trouble breathing can be life-threatening.",
+            "fainting":            "Fainting can signal a heart or brain emergency.",
+            "seizures":            "A seizure needs emergency evaluation, especially a first one or one that does not stop.",
+            "vomiting blood":      "Vomiting blood can mean serious internal bleeding.",
+            "slurring words":      "Slurred speech can be a sign of a stroke. Note the time symptoms started.",
+            "focal weakness":      "Sudden weakness on one side of the body can be a sign of a stroke.",
+            "throat swelling":     "Swelling in the throat can block your airway.",
+        }
 
     def step(self, node, yes):
         return node['yes' if yes else 'no']
@@ -31,7 +42,6 @@ class Engine:
 
 
 def phrase(symptom):
-    """Swap in your LLM call. It may only reword the symptom, never choose it."""
     return f'Are you experiencing {symptom}?'
 
 
