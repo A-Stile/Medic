@@ -23,7 +23,18 @@ class Engine:
         else:
             self.tree = DEMO_TREE
         self.total = self.tree['n']
-        self.red_flags = {'chest pain': 'Chest pain can be a sign of a heart attack.'}
+        self.red_flags = {
+    "chest tightness":     "Chest tightness or pressure can be a sign of a heart attack.",
+    "sharp chest pain":    "Chest pain can be a sign of a heart attack or another life-threatening problem.",
+    "shortness of breath": "Shortness of breath can signal a heart or lung emergency.",
+    "difficulty breathing": "Trouble breathing can be life-threatening.",
+    "fainting":            "Fainting can signal a heart or brain emergency.",
+    "seizures":            "A seizure needs emergency evaluation, especially a first one or one that does not stop.",
+    "vomiting blood":      "Vomiting blood can mean serious internal bleeding.",
+    "slurring words":      "Slurred speech can be a sign of a stroke. Note the time symptoms started.",
+    "focal weakness":      "Sudden weakness on one side of the body can be a sign of a stroke.",
+    "throat swelling":     "Swelling in the throat can block your airway.",
+}
  
     def step(self, node, yes):
         return node['yes' if yes else 'no']
