@@ -1,9 +1,8 @@
-import asyncio
 import json
 import os
 import re
  
-from nicegui import run, ui
+from nicegui import ui
  
 # ───────────── ENGINE CONTRACT: swap this block for your own engine ─────────────
 # Question node: {"symptom": str, "n": int, "yes": node, "no": node}
@@ -131,12 +130,7 @@ def index():
     async def load_text():
         node = s['node']
         if 'leaf' not in node and not s['alarm']:
-            s['text'] = None            # shows skeleton while the phrasing layer works
-            stage.refresh()
-            try:
-                s['text'] = await asyncio.wait_for(run.io_bound(phrase, clean(node['symptom'])), 3)
-            except Exception:           # LLM slow or down: triage must never block on it
-                s['text'] = f"Are you experiencing {clean(node['symptom'])}?"
+            s['text'] = f"Are you experiencing {clean(node['symptom'])}?"
         stage.refresh()
  
     async def answer(yes):

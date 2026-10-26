@@ -1,4 +1,5 @@
-#outdated frontend, INGORE
+#outdated frontend
+#this is where I tested NiceGUI initially
 
 from nicegui import ui
 from json_reader import symptom_check
@@ -73,3 +74,5 @@ def user():
             ui.button("reset", on_click=lambda: reset())
         with content_container_2:
             ui.chat_message(f"You got {user.current_node['symptom']}")
+
+ui.run()
