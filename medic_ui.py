@@ -11,7 +11,7 @@ from nicegui import run, ui
 #                 "urgency": "emergency" | "urgent" | "routine"}
 # "n" = number of patient rows still in the candidate pool at that node.
  
-with open('starter_tree.json', 'r', encoding='utf-8') as file:
+with open('ui_tree.json', 'r', encoding='utf-8') as file:
     DEMO_TREE = json.load(file)
  
  
@@ -30,12 +30,6 @@ class Engine:
  
     def red_flag(self, symptom):
         return self.red_flags.get(symptom)
- 
- 
-def phrase(symptom):
-    """Swap in your LLM call. It may only reword the symptom, never choose it."""
-    return f'Are you experiencing {symptom}?'
- 
  
 engine = Engine()
 # ────────────────────────────── END ENGINE CONTRACT ──────────────────────────────
@@ -73,7 +67,7 @@ body{font-family:'Instrument Sans',system-ui,sans-serif;color:var(--ink);backgro
 .shell{width:100%;max-width:600px;margin:0 auto;padding:32px 16px 48px;gap:24px}
 .brand{gap:8px}.brand-icon{font-size:26px;color:var(--teal)}
 .brand-name{font-size:22px;font-weight:700;letter-spacing:-.02em}
-.card{width:100%;background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;gap:18px;
+.card{display:flex;flex-direction:column;width:100%;background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;gap:18px;
       box-shadow:0 1px 2px rgba(18,48,59,.05),0 16px 32px -16px rgba(18,48,59,.20)}
 .swap{animation:swap .35s ease-out}
 @keyframes swap{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
@@ -93,9 +87,9 @@ body{font-family:'Instrument Sans',system-ui,sans-serif;color:var(--ink);backgro
 .cond .sub{margin-top:0;font-size:14px}
 .urg-title{font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-.02em}
 .urg-advice{font-size:16px;line-height:1.5;color:var(--muted)}.strong{font-weight:700}
-.urg-emergency{border-top:5px solid var(--red)}
-.urg-urgent{border-top:5px solid var(--amber)}
-.urg-routine{border-top:5px solid var(--green)}
+.urg-emergency{background-image:linear-gradient(var(--red),var(--red));background-size:100% 5px;background-repeat:no-repeat}
+.urg-urgent{background-image:linear-gradient(var(--amber),var(--amber));background-size:100% 5px;background-repeat:no-repeat}
+.urg-routine{background-image:linear-gradient(var(--green),var(--green));background-size:100% 5px;background-repeat:no-repeat}
 .urg-emergency .fill{background:var(--red)}.urg-urgent .fill{background:var(--amber)}
 .urg-routine .fill{background:var(--green)}
 .alarm{background:var(--red);border-color:var(--red);color:#fff;animation:swap .35s ease-out,pulse 1.8s ease-out 0.4s infinite}
@@ -156,12 +150,13 @@ def index():
         await load_text()
  
     # ---- views ---------------------------------------------------------------
-    def narrowing(node):
+    def narrowing(node, bar=True):
         pct = round(100 * (1 - node['n'] / engine.total))
         ui.label(f"{node['n']:,} of {engine.total:,} records in the dataset still match").classes('meta')
-        with ui.element('div').classes('track'):
-            fill = ui.element('div').classes('fill').style(f"width:{s['pct']}%")
-        grow(fill, pct)
+        if bar:
+            with ui.element('div').classes('track'):
+                fill = ui.element('div').classes('fill').style(f"width:{s['pct']}%")
+            grow(fill, pct)
         s['pct'] = pct
  
     def question_view(node):
@@ -199,7 +194,7 @@ def index():
                     with ui.element('div').classes('track'):
                         fill = ui.element('div').classes('fill').style('width:0%')
                     grow(fill, round(conf * 100))
-            narrowing(node)
+            narrowing(node, bar=False)
             with ui.row():
                 ui.button('Start over', icon='restart_alt', on_click=restart).props('unelevated no-caps')
                 if s['trail']:
@@ -236,4 +231,3 @@ def index():
  
  
 ui.run(title='Medic', favicon='🩺', reload=False)
- 
